@@ -1,10 +1,12 @@
+#!/usr/bin/env node
+
 const AWS = require('aws-sdk');
 const yargs = require('yargs');
 
 const argv = yargs
   .option('keyId', {
     type: 'string',
-    describe: 'The ID of the KMS key',
+    describe: 'The ID or alias of the KMS key',
     default: null,
   })
   .option('find', {
@@ -49,7 +51,7 @@ const ssm = new AWS.SSM({
       Name: name,
       Type: param.Type,
       Value: param.Value,
-      KeyId: argv.keyId || param.KeyId,
+      KeyId: argv.keyId || null,
       Overwrite: true,
     };
 
